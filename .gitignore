@@ -214,3 +214,7 @@ blob-report/
 screenshots/          
 videos/               
 traces/
+
+# MetaMask Extension
+extensions/metamask/
+.browser_data/
