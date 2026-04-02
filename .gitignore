@@ -218,3 +218,7 @@ traces/
 # MetaMask Extension
 extensions/metamask/
 .browser_data/
+
+#for debug and generate locator
+codegen.py
+.codegen_data/
