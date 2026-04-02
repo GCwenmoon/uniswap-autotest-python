@@ -1,0 +1,55 @@
+[project]
+name = "uniswap-autotest-python"
+version = "0.1.0"
+description = "an automated test project demo of Uniswap written in Python"
+requires-python = ">=3.10"
+readme = "README.md"
+authors = [
+    {name = "GC", email = "germanchan9233@gmail.com"}
+]
+
+# ==================== Dependency ====================
+dependencies = [
+    "pytest",
+    "pytest-playwright",
+    "playwright",
+    "requests",
+    "web3",
+    "python-dotenv",
+]
+
+
+# ==================== pytest config ====================     
+markers = [
+    "api: API test only",
+    "swap: swap feature only",
+    "full",
+]
+
+# base URL
+base_url = "https://app.uniswap.org/"
+
+
+
+[tool.pytest.ini_options]
+addopts = "-v --headed"    
+
+minversion = "8.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.playwright]
+browser = "chromium"
+headless = false
+
+[dependency-groups]
+dev = [
+    "playwright>=1.58.0",
+    "pytest>=9.0.2",
+    "pytest-playwright>=0.7.2",
+    "python-dotenv>=1.2.2",
+    "requests>=2.33.1",
+    "web3>=7.14.1",
+]
