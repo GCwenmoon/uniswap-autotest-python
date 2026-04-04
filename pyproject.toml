@@ -26,11 +26,6 @@ markers = [
     "full",
 ]
 
-# base URL
-base_url = "https://app.uniswap.org/"
-
-
-
 [tool.pytest.ini_options]
 addopts = "-v --headed"    
 

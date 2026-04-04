@@ -3,12 +3,14 @@ import pytest
 from playwright.sync_api import Playwright, Browser, BrowserContext, Page
 import os
 from datetime import datetime
-
+from dotenv import load_dotenv
 
 METAMASK_PATH = os.path.join(os.getcwd(), "extensions", "metamask")
 
-TEST_SEED_PHRASE = "test test test test test test test test test test test junk"
-TEST_PASSWORD = "TestPassword123!"
+METAMASK_SEED_PHRASE = os.getenv("METAMASK_SEED_PHRASE")
+METAMASK_PASSWORD = os.getenv("METAMASK_PASSWORD")
+if not METAMASK_SEED_PHRASE or not METAMASK_PASSWORD:
+    raise ValueError("Missing METAMASK_SEED_PHRASE or METAMASK_PASSWORD in .env")
 
 @pytest.fixture(scope="session")
 def browser(playwright: Playwright):
@@ -50,12 +52,12 @@ def import_metamask_wallet(browser: Browser):
             page.get_by_text("I agree").click() if page.get_by_text("I agree").is_visible() else None
             
             # input seed phrase
-            page.get_by_role("textbox").fill(TEST_SEED_PHRASE)
+            page.get_by_role("textbox").fill(METAMASK_SEED_PHRASE)
             page.get_by_role("button", name="Continue").click()
             
             # Setup password
-            page.get_by_placeholder("New password").fill(TEST_PASSWORD)
-            page.get_by_placeholder("Confirm password").fill(TEST_PASSWORD)
+            page.get_by_placeholder("New password").fill(METAMASK_PASSWORD)
+            page.get_by_placeholder("Confirm password").fill(METAMASK_PASSWORD)
             page.get_by_role("checkbox").check()
             page.get_by_role("button", name="Import").click()
             
@@ -63,7 +65,7 @@ def import_metamask_wallet(browser: Browser):
         
         elif page.get_by_text("Unlock", timeout=3000).is_visible():
             print("🔓 MetaMask imported, entering password...")
-            page.get_by_placeholder("Password").fill(TEST_PASSWORD)
+            page.get_by_placeholder("Password").fill(METAMASK_PASSWORD)
             page.get_by_role("button", name="Unlock").click()
         
         else:
